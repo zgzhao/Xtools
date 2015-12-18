@@ -1,9 +1,10 @@
-# 说明
-此软件包集合了若干个本实验室常用的函数，代码可自由使用和分发。
+# README
+The `Xtools` package contains some R functions often use in our lab. You can use it freely.
 
-您可以使用 `devtools` 从 `github` 上安装：
+The package can be install with `devtools` from `github` by execute the following commands in R:
 
-```xxx
+```
+## install.packages('devtools')
 require(devtools)
 install_github('zgzhao/Xtools')
 ```
