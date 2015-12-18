@@ -1,5 +1,5 @@
-library(Xtools)
-
+require('shiny')
+require('Xtools')
 shinyApp(
     ##* UI section ==========================================
     ui=fluidPage(
