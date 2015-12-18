@@ -156,6 +156,32 @@ isOverlap <- function(ir1, ir2) {
     w0 <= (w1 + w2)
 }
 
+
+#' Using LT50s tools with shiny.
+#'
+#' Using LT50s tools with shiny.
+#' @examples
+#' ## Begin example
+#' library(Xtools)
+#' datax <- na.omit(airquality)[,1:4]
+#' cols <- cm.colors(ncol(datax))
+#' layout(matrix(1:6, ncol=2))
+#' set.seed(0)
+#' for (ndx in 1:6){
+#'     dt <- datax[sample(rownames(datax), 10), ]
+#'     par(mar=c(0.5,2,0.5,0.5))
+#'     brkt <- sample(c('normal', 'zigzag'), 1)
+#'     gap.barplot(dt, col=cols, brk.type=brkt, max.fold=5, ratio=2)
+#' }
+#' ## End example
+#' @author ZG Zhao
+#' @export
+LT50s.shiny.app <- function(){
+    require(shiny)
+    xpp <- system.file("examples", "LT50s", package="Xtools")
+    runApp(xpp)
+}
+
 ## df <- read.table('~/LT50.demo.txt', header=TRUE)
 ## dt <- getLT50s(df, all=TRUE)
 ## library(RColorBrewer)
