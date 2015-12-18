@@ -9,4 +9,5 @@ Depends:
     R (>= 2.10),
     scales,
     RColorBrewer
+Suggests: shiny
 License: GPL (>= 2)
