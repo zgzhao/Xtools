@@ -12,16 +12,7 @@ Using LT50s tools with shiny.
 \examples{
 ## Begin example
 library(Xtools)
-datax <- na.omit(airquality)[,1:4]
-cols <- cm.colors(ncol(datax))
-layout(matrix(1:6, ncol=2))
-set.seed(0)
-for (ndx in 1:6){
-    dt <- datax[sample(rownames(datax), 10), ]
-    par(mar=c(0.5,2,0.5,0.5))
-    brkt <- sample(c('normal', 'zigzag'), 1)
-    gap.barplot(dt, col=cols, brk.type=brkt, max.fold=5, ratio=2)
-}
+LT50s.shiny.app()
 ## End example
 }
 \author{

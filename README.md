@@ -8,7 +8,7 @@ The package can be install with `devtools` from `github` by execute the followin
 require(devtools)
 install_github('zgzhao/Xtools')
 ```
-# LT50s shiny app
+# Using LT50s shiny app
 
 After `Xtools` installation, you can use the shiny app as:
 
@@ -17,3 +17,11 @@ require(shiny)
 xpp <- system.file("examples", "LT50s", package="Xtools")
 runApp(xpp)
 ```
+Or:
+
+```
+require(Xtools)
+LT50s.shiny.app()
+```
+
+Both methods do the same things.
