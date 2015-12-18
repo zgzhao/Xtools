@@ -1,4 +1,3 @@
-require('shiny')
 require('Xtools')
 shinyApp(
     ##* UI section ==========================================
