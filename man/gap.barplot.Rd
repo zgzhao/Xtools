@@ -13,72 +13,72 @@ gap.barplot(df, y.cols = 1:ncol(df), sdu.cols = NULL, sdd.cols = NULL,
   box.lwd = 1, box.col = 1, box.lty = 1, ...)
 }
 \arguments{
-\item{df}{长格式的data.frame，即数据框中每一列为一组绘图数据。}
+\item{df}{Long format data.frame, grouped by columns in barplot.}
 
-\item{y.cols}{用做柱形图y值的数据列（序号或名称），一列为一组。如 y.cols=1:3 表示df的1～3列为y值。}
+\item{y.cols}{The index of y columns in df, such y.cols=1:3}
 
-\item{sdu.cols}{df中如果包含误差值，该参数设置误差上限值所在的列，如 sdu.cols=4:6}
+\item{sdu.cols}{If the df data frame contains standard error columns, sdu.cols assigns the column index.}
 
-\item{sdd.cols}{如果误差值上限和下限不同，可设置该参数，否则默认同sdu.cols参数值。}
+\item{sdd.cols}{If the upper and lower limits of SD are different, sdd.cols assigns the column index for lower limits.}
 
-\item{btm}{低位断点。如果btm和top均不设置，程序将自动计算和设置断点位置。}
+\item{btm}{Set the bottom break point value manually. Default is auto.}
 
-\item{top}{高位断点。}
+\item{top}{Set the top break point value manually. Default is auto.}
 
-\item{ylim}{y轴坐标范围}
+\item{ylim}{y limits}
 
-\item{yext}{y轴延伸比例}
+\item{yext}{If ylim is not set, yext sets the y extension.}
 
-\item{min.range}{自动计算断点的阈值：最大值与最小值的最小比值}
+\item{min.range}{If the ratio of max y to min y is less than this value, the barplot will not have a gap.}
 
-\item{max.fold}{自动计算断点时最大值与下方数据最大值的最大倍数比}
+\item{max.fold}{The max ratio of max(all y) to max(lower part y).}
 
-\item{ratio}{断裂后上部与下部y轴长度的比例。}
+\item{ratio}{The height ratio of upper to lower part in barplot.}
 
-\item{gap.width}{y轴断裂位置的相对物理宽度（非坐标轴实际刻度）}
+\item{gap.width}{Relative width of the gap.}
 
-\item{brk.type}{断点类型，可设为normal或zigzag}
+\item{brk.type}{Break type, value should be `normal` or `zigzag`.}
 
-\item{brk.bg}{断点处的背景颜色}
+\item{brk.bg}{Background color of the gap.}
 
-\item{brk.srt}{断点标记线旋转角度}
+\item{brk.srt}{Break line angle if brk.type is `normal`.}
 
-\item{brk.size}{断点标记线的大小（长度）}
+\item{brk.size}{Break line length.}
 
-\item{brk.col}{断点标记线的颜色}
+\item{brk.col}{Break line color.}
 
-\item{brk.lwd}{断点标记线的线宽}
+\item{brk.lwd}{Break line width.}
 
-\item{error.cex}{误差线相对长度，默认为1}
+\item{error.cex}{cex of error bar.}
 
-\item{error.lwd}{误差线线宽}
+\item{error.lwd}{lwd of error bar.}
 
-\item{error.col}{误差线颜色}
+\item{error.col}{color of error bar.}
 
-\item{sig.lab}{显著性标记符号}
+\item{sig.lab}{Significance labels vector, the same order as y by columns.}
 
-\item{sig.cex}{显著性标记符号的字体放大倍数}
+\item{sig.cex}{cex of sig labels.}
 
-\item{sig.xpos}{显著性标记符号的x坐标位移}
+\item{sig.xpos}{Relative x adjustment of sig labels.}
 
-\item{sig.ypos}{显著性标记符号的y坐标位移}
+\item{sig.ypos}{Relative y adjustment of sig labels.}
 
-\item{box.lwd}{图形区边框线的宽度}
+\item{box.lwd}{box line width}
 
-\item{box.col}{图形区边框线的颜色}
+\item{box.col}{box color.}
 
-\item{box.lty}{图形区边框线的线型}
+\item{box.lty}{box line type}
 
-\item{...}{其他传递给R基本绘图函数barplot的参数}
+\item{...}{Other parameters passed to barplot function.}
 }
 \value{
-返回barplot的原始返回值，即柱形图的x坐标
+Same as barplot return values.
 }
 \description{
-使用R基本绘图函数绘制y轴不连续的柱形图
+gap barplot
 }
 \details{
-绘制y轴不连续的柱形图，具有误差线添加功能。断点位置通过btm和top参数设置，如果不设置，函数可自动计算合适的断点位置。
+gap barplot with various options such auto/manual gap interval, errorbar and significance labels.
 }
 \examples{
 ## Begin example

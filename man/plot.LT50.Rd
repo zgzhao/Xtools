@@ -46,10 +46,10 @@
 \item{...}{Other parameters pass to 'plot' function.}
 }
 \description{
-绘制电导率温度曲线并返回LT50值
+Calculate and plot LT50 curve.
 }
 \details{
-根据用户提供的温度和电导率数据，使用SSlogis函数进行S曲线拟合，返回LT50、95%置信区间和拟合曲线的R平方值。如果参数plot=c('curve', 'bar')，则同时绘制LT50曲线。
+Calculate and plot LT50 curve.
 }
 \author{
 ZG Zhao
