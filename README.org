@@ -1,9 +1,9 @@
 #+TITLE: Xtools package
 #+AUTHOR: ZGUANG@LZU
 #+OPTIONS: toc:nil ^:{} html-style:nil html-scripts:nil
-#+STARTUP: content
+#+STARTUP: showall
 
-The *Xtools* package contains some R functions often use in our lab.
+The "*Xtools*" package contains some R functions often use in our lab.
 
 You can use it freely.
 
