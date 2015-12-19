@@ -3,14 +3,6 @@
 #+OPTIONS: toc:nil ^:{} html-style:nil html-scripts:nil
 #+STARTUP: content
 
-#+BEGIN_SRC R :exports code :tangle no :eval never :ravel docsetup, eval=TRUE, echo=FALSE
-  ## knitr 选项设置
-  opts_chunk$set(fig.path='figure/ch0x-', fig.width=4, fig.height=3.6, fig.show='hold', tidy=TRUE,
-                 prompt=FALSE, size='scriptsize', comment='##', warning=FALSE, message=FALSE)
-  knit_theme$set('autumn')
-#+END_SRC
-
-
 The *Xtools* package contains some R functions often use in our lab.
 
 You can use it freely.
