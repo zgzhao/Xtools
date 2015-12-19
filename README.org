@@ -1,0 +1,33 @@
+#+TITLE: Xtools package
+#+AUTHOR: ZGUANG@LZU
+#+OPTIONS: toc:nil ^:{} html-style:nil html-scripts:nil
+#+STARTUP: content
+
+The `Xtools` package contains some R functions often use in our lab.
+You can use it freely.
+
+* INSTALL
+The package can be install with `devtools` from `github` by execute the following commands in R:
+#+BEGIN_SRC R :exports code :tangle no :eval never :ravel eval=FALSE
+  ## install.packages('devtools')
+  require(devtools)
+  install_github('zgzhao/Xtools')
+#+END_SRC
+
+* Using LT50s shiny app
+After `Xtools` installation, you can use the shiny app as:
+#+BEGIN_SRC R :exports code :tangle no :eval never :ravel eval=FALSE
+  require(shiny)
+  xpp <- system.file("examples", "LT50s", package="Xtools")
+  runApp(xpp)
+#+END_SRC
+
+Or:
+#+BEGIN_SRC R :exports code :tangle no :eval never :ravel eval=FALSE
+  require(Xtools)
+  LT50s.shiny.app()
+#+END_SRC
+
+Both methods do the same things.
+
+--------------------
