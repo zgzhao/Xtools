@@ -161,7 +161,7 @@ gap.barplot <- function(df, y.cols=1:ncol(df), sdu.cols=NULL, sdd.cols=NULL, btm
 
     ## Virtual ticks
     brks <- c(brks1, brks2 * lmx[2] + lmx[1])
-    axis(2, at=brks, labels=labx)
+    axis(2, at=brks, labels=labx, ...)
     if(box.lwd > 0) box(lwd=box.lwd, lty=box.lty, col=box.col)
     
     ## break marks
