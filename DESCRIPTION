@@ -8,6 +8,7 @@ Description: Collection of analysis tools
 Depends:
     R (>= 2.10),
     scales,
-    RColorBrewer
-Suggests: shiny
+    RColorBrewer,
+    reshape2,
+    shiny
 License: GPL (>= 2)

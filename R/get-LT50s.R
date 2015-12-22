@@ -172,9 +172,3 @@ LT50s.shiny.app <- function(){
     xpp <- system.file("examples", "LT50s", package="Xtools")
     runApp(xpp)
 }
-
-## df <- read.table('~/LT50.demo.txt', header=TRUE)
-## dt <- getLT50s(df, all=TRUE)
-## library(RColorBrewer)
-## library(scales)
-## plot(dt, se.plot=FALSE)
