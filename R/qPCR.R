@@ -19,7 +19,7 @@ qPCR.shiny.app <- function(){
     }
                 
     library(shiny)
-    xpp <- system.file("examples", "qPCR", package="Xtools")
+    xpp <- system.file("shiny", "qPCR", package="Xtools")
     runApp(xpp)
 }
 

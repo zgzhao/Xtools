@@ -169,6 +169,6 @@ isOverlap <- function(ir1, ir2) {
 #' @export
 LT50s.shiny.app <- function(){
     require(shiny)
-    xpp <- system.file("examples", "LT50s", package="Xtools")
+    xpp <- system.file("shiny", "LT50s", package="Xtools")
     runApp(xpp)
 }
