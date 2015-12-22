@@ -7,10 +7,10 @@
 #' @author ZG Zhao
 #' @export
 qPCR.shiny.app <- function(){
-    a <- !require('HTqPCR', logical.return = T, quietly = T)
-    b <- !require('ddCt', logical.return = T, quietly = T)
+    a <- !library('HTqPCR', logical.return = T, quietly = T)
+    b <- !library('ddCt', logical.return = T, quietly = T)
     if (a | b) {
-        if (!require('BiocInstaller', logical.return = T, quietly = T)) {
+        if (!library('BiocInstaller', logical.return = T, quietly = T)) {
             source("https://bioconductor.org/biocLite.R")
             biocLite()
         }
@@ -18,7 +18,7 @@ qPCR.shiny.app <- function(){
         if(b) biocLite('ddCt')
     }
                 
-    require(shiny)
+    library(shiny)
     xpp <- system.file("examples", "qPCR", package="Xtools")
     runApp(xpp)
 }
