@@ -3,32 +3,53 @@
 #+OPTIONS: toc:nil ^:{} html-style:nil html-scripts:nil
 #+STARTUP: showall
 
-The "*Xtools*" package contains some R functions often use in our lab.
+The "*Xtools*" package contains R functions and shiny apps for:
++ calculating LT50s (half leathal temperature) with EL (electrolyte leakage) data
++ plotting LT50 curves
++ processing qPCR data with "HTqPCR" and "ddCt" packages from BioConductor
 
-You can use it freely.
+You can use these tools freely.
+--------------
 
-* Install
+"*Xtools*" 是一个R软件包，目前包含的R函数和shiny应用可用于以下方面：
++ 使用EL（电导率渗漏）数据计算LT50（半致死温度）
++ 绘制LT50曲线
++ 使用BioC的HTqPCR和ddCt软件包处理qPCR数据
+
+您可以自由使用本软件包。
+---------------
+
+* Install / 软件包安装
 The package can be install with *devtools* from *github* by execute the following commands in R:
 #+BEGIN_SRC R :exports code :tangle no :eval never :ravel eval=FALSE
   ## install.packages('devtools')
-  require(devtools)
+  require('devtools')
   install_github('zgzhao/Xtools')
 #+END_SRC
+-------------
 
-* Using LT50s shiny app
-After *Xtools* installation, you can use the shiny app as:
-#+BEGIN_SRC R :exports code :tangle no :eval never :ravel eval=FALSE
-  require(shiny)
-  xpp <- system.file("examples", "LT50s", package="Xtools")
-  runApp(xpp)
-#+END_SRC
+* Using shiny apps / shiny应用程序使用方法
 
-Or:
+For LT50 data processing, please run:
+
+对于LT50数据处理，请运行下面语句：
 #+BEGIN_SRC R :exports code :tangle no :eval never :ravel eval=FALSE
-  require(Xtools)
+  ## install.packages('shiny')
+  require('Xtools')
   LT50s.shiny.app()
 #+END_SRC
 
-Both methods do the same things.
+For qPCR data processing, please run:
+
+对于qPCR数据处理，请运行下面语句：
+#+BEGIN_SRC R :exports code :tangle no :eval never :ravel eval=FALSE
+  ## install.packages('shiny')
+  require('Xtools')
+  qPCR.shiny.app()
+#+END_SRC
+
+The shiny web app will run locally.
+
+以上语句将在您的机器上运行shiny web应用程序。
 
 --------------------
