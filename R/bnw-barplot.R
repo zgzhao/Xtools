@@ -14,3 +14,7 @@ bnw_legend <- function(x, y=NULL, legend, shade=1:7, ...) {
     legend(x, y, legend, angle=angle1, density=dens, ...)
     legend(x, y, legend, angle=angle2, density=dens, ...)
 }
+
+## shade <- c(2, 4, 5, 1, 3)
+## bnw_barplot(1:5, shade=shade)
+## bnw_legend("topleft", legend=LETTERS[1:6], shade=shade)

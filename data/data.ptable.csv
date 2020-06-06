@@ -1,0 +1,87 @@
+"Gene","Plant","S1","S2","P"
+"NiR","Arabidopsis","A@CA5@A","A@NCA@A",0.859875744572787
+"NR","Arabidopsis","A@CA5@A","A@NCA@A",0.859875744572787
+"NiR","Arabidopsis","B@CA5@A","A@CA5@A",0.00071169860788386
+"NR","Arabidopsis","B@CA5@A","A@CA5@A",0.101301924720026
+"NiR","Arabidopsis","B@CA5@A","A@NCA@A",0.00181639381225317
+"NR","Arabidopsis","B@CA5@A","A@NCA@A",0.199817896335222
+"NiR","Arabidopsis","B@CA5@A","B@NCA@A",0.00622965439752973
+"NR","Arabidopsis","B@CA5@A","B@NCA@A",0.939143024757445
+"NiR","Arabidopsis","B@NCA@A","A@CA5@A",0.638604625627817
+"NR","Arabidopsis","B@NCA@A","A@CA5@A",0.427498341378855
+"NiR","Arabidopsis","B@NCA@A","A@NCA@A",0.867250393149851
+"NR","Arabidopsis","B@NCA@A","A@NCA@A",0.49678691386847
+"NiR","Arabidopsis","C@CA5@A","A@CA5@A",0.0122911203117107
+"NR","Arabidopsis","C@CA5@A","A@CA5@A",1.49407683687159e-09
+"NiR","Arabidopsis","C@CA5@A","A@NCA@A",0.00314218632756905
+"NR","Arabidopsis","C@CA5@A","A@NCA@A",1.85334478165304e-09
+"NiR","Arabidopsis","C@CA5@A","B@CA5@A",2.49135733665127e-07
+"NR","Arabidopsis","C@CA5@A","B@CA5@A",7.32960279606983e-08
+"NiR","Arabidopsis","C@CA5@A","B@NCA@A",0.00202376774740838
+"NR","Arabidopsis","C@CA5@A","B@NCA@A",3.49016846125801e-08
+"NiR","Arabidopsis","C@CA5@A","C@NCA@A",0.115319510255344
+"NR","Arabidopsis","C@CA5@A","C@NCA@A",0.254878867589617
+"NiR","Arabidopsis","C@NCA@A","A@CA5@A",0.000118486394101049
+"NR","Arabidopsis","C@NCA@A","A@CA5@A",3.79021916876441e-08
+"NiR","Arabidopsis","C@NCA@A","A@NCA@A",2.20416556444714e-05
+"NR","Arabidopsis","C@NCA@A","A@NCA@A",4.99159355505692e-08
+"NiR","Arabidopsis","C@NCA@A","B@CA5@A",4.14412573504343e-09
+"NR","Arabidopsis","C@NCA@A","B@CA5@A",2.42950213603985e-06
+"NiR","Arabidopsis","C@NCA@A","B@NCA@A",7.96882004668542e-06
+"NR","Arabidopsis","C@NCA@A","B@NCA@A",1.11588044310948e-06
+"NiR","C. bungeana","A@CA5@E","A@NCA@E",0.00137978043011175
+"NR","C. bungeana","A@CA5@E","A@NCA@E",7.94328017076023e-09
+"NiR","C. bungeana","B@CA5@E","A@CA5@E",0.0446935941852223
+"NR","C. bungeana","B@CA5@E","A@CA5@E",0.00856047948909177
+"NiR","C. bungeana","B@CA5@E","A@NCA@E",0.244740406012779
+"NR","C. bungeana","B@CA5@E","A@NCA@E",0.000117790907833952
+"NiR","C. bungeana","B@CA5@E","B@NCA@E",0.0992301012404434
+"NR","C. bungeana","B@CA5@E","B@NCA@E",4.42526744313682e-05
+"NiR","C. bungeana","B@NCA@E","A@CA5@E",0.000159648113690095
+"NR","C. bungeana","B@NCA@E","A@CA5@E",3.95788202579398e-09
+"NiR","C. bungeana","B@NCA@E","A@NCA@E",0.828488010941258
+"NR","C. bungeana","B@NCA@E","A@NCA@E",0.828488010941258
+"NiR","C. bungeana","C@CA5@E","A@CA5@E",0.08377582147453
+"NR","C. bungeana","C@CA5@E","A@CA5@E",0.634186840770503
+"NiR","C. bungeana","C@CA5@E","A@NCA@E",0.148025510484994
+"NR","C. bungeana","C@CA5@E","A@NCA@E",4.52901987219426e-08
+"NiR","C. bungeana","C@CA5@E","B@CA5@E",0.976147230693635
+"NR","C. bungeana","C@CA5@E","B@CA5@E",0.0477942488922124
+"NiR","C. bungeana","C@CA5@E","B@NCA@E",0.0536403414131385
+"NR","C. bungeana","C@CA5@E","B@NCA@E",1.6534763451396e-08
+"NiR","C. bungeana","C@CA5@E","C@NCA@E",0.00559096113957388
+"NR","C. bungeana","C@CA5@E","C@NCA@E",1.47522134125709e-07
+"NiR","C. bungeana","C@NCA@E","A@CA5@E",1.75868546335898e-05
+"NR","C. bungeana","C@NCA@E","A@CA5@E",1.70719071582369e-08
+"NiR","C. bungeana","C@NCA@E","A@NCA@E",0.274176573489688
+"NR","C. bungeana","C@NCA@E","A@NCA@E",1
+"NiR","C. bungeana","C@NCA@E","B@CA5@E",0.0116386419045367
+"NR","C. bungeana","C@NCA@E","B@CA5@E",0.000247050900868057
+"NiR","C. bungeana","C@NCA@E","B@NCA@E",0.626335100917218
+"NR","C. bungeana","C@NCA@E","B@NCA@E",0.626335100917218
+"NiR","C. bungeana","D@CA5@E","A@CA5@E",0.203717642139982
+"NR","C. bungeana","D@CA5@E","A@CA5@E",0.041354782149972
+"NiR","C. bungeana","D@CA5@E","A@NCA@E",0.0427188930373036
+"NR","C. bungeana","D@CA5@E","A@NCA@E",4.22051683531384e-12
+"NiR","C. bungeana","D@CA5@E","B@CA5@E",0.482134709426605
+"NR","C. bungeana","D@CA5@E","B@CA5@E",1.39939212062362e-05
+"NiR","C. bungeana","D@CA5@E","B@NCA@E",0.0124847083355343
+"NR","C. bungeana","D@CA5@E","B@NCA@E",1.77639249674205e-12
+"NiR","C. bungeana","D@CA5@E","C@CA5@E",0.923120900822388
+"NR","C. bungeana","D@CA5@E","C@CA5@E",0.0115160708994447
+"NiR","C. bungeana","D@CA5@E","C@NCA@E",0.00105085715458804
+"NR","C. bungeana","D@CA5@E","C@NCA@E",1.27947819100655e-11
+"NiR","C. bungeana","D@CA5@E","D@NCA@E",0.81033591670025
+"NR","C. bungeana","D@CA5@E","D@NCA@E",0.111763275006786
+"NiR","C. bungeana","D@NCA@E","A@CA5@E",0.168103661546542
+"NR","C. bungeana","D@NCA@E","A@CA5@E",0.819541656500161
+"NiR","C. bungeana","D@NCA@E","A@NCA@E",0.113464084536252
+"NR","C. bungeana","D@NCA@E","A@NCA@E",1.27854586514219e-09
+"NiR","C. bungeana","D@NCA@E","B@CA5@E",0.848302904124546
+"NR","C. bungeana","D@NCA@E","B@CA5@E",0.00242143604803685
+"NiR","C. bungeana","D@NCA@E","B@NCA@E",0.0292558523969997
+"NR","C. bungeana","D@NCA@E","B@NCA@E",9.74418390742398e-10
+"NiR","C. bungeana","D@NCA@E","C@CA5@E",1
+"NR","C. bungeana","D@NCA@E","C@CA5@E",0.450145519158552
+"NiR","C. bungeana","D@NCA@E","C@NCA@E",0.00513701951265432
+"NR","C. bungeana","D@NCA@E","C@NCA@E",8.16584963349489e-09

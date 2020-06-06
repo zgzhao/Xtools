@@ -1,10 +1,13 @@
 .LT50sim <- function(TMP, EL, rt){
+    set.seed(1234)
     EL[EL > 100] <- 100
     mT <- min(TMP) - 10
     
     ## Extending temperature low enough to ensure success logistic regression
-    TMP <- c(TMP, mT - seq(0, by=5, length=5))
-    EL <- c(EL, rep(100, 5))
+    TMP <- c(seq(20, max(TMP), length = 5),
+             TMP, mT - seq(0, by=5, length=5))
+    EL <- c(rnorm(5, min(EL), min(EL) * 0.2),
+            EL, rep(100, 5))
     
     df <- na.omit(data.frame(TMP=TMP, EL=EL))
     
@@ -64,11 +67,9 @@ getLT50s <- function(df, range.t=NULL, all.info=FALSE){
     else return(vals)
 }
 
-
-
-#' Calculate and plot LT50 curve.
+#' Plot LT50s and return results
 #'
-#' Calculate and plot LT50 curve.
+#' Calculation of LT50 with EL data using SSlogis fitting function, returning results of LT50, 95\% CI and R values
 #' @title Plot LT50 regression curves of given data.
 #' @param dt The result of getLT50s() with 'all.info=TRUE'.
 #' @param point.plot If TRUE (default), plot data points.
@@ -78,10 +79,10 @@ getLT50s <- function(df, range.t=NULL, all.info=FALSE){
 #' @param show.cols Sample columns to show in figure.
 #' @param cex.point cex for data points.
 #' @param cex.legend cex for legends.
+#' @param legend.pos lengend position
 #' @param xlab Same as 'plot' function.
 #' @param ylab Same as 'plot' function.
 #' @param xlim Same as 'plot' function.
-#' @param ylim Same as 'plot' function.
 #' @param lwd Same as 'plot' function.
 #' @param lty Same as 'plot' function.
 #' @param col Same as 'plot' function.
@@ -91,10 +92,10 @@ getLT50s <- function(df, range.t=NULL, all.info=FALSE){
 #' @author ZG Zhao
 #' @export
 plot.LT50 <- function(dt, point.plot = TRUE, se.plot = TRUE, se.alpha=0.2, labels = NULL, show.cols=NA, 
-                      cex.point=1, cex.legend=1,
+                      cex.point=1, cex.legend=1, legend.pos = 'bottomleft', 
                       xlab = expression(paste('Temperature (', degree, 'C)')), 
                       ylab = "Electrolyte Leakage (%)",
-                      xlim = NULL, ylim = NULL, lwd=1, lty=NULL, col=NULL, pch=NULL, ...) {
+                      xlim = NULL, lwd=1, lty=NULL, col=NULL, pch=NULL, ...) {
     
     df <- dt$data
     preds <- dt$preds
@@ -136,7 +137,7 @@ plot.LT50 <- function(dt, point.plot = TRUE, se.plot = TRUE, se.alpha=0.2, label
         }
     }
     
-    legend('bottomleft', legend=labels[sels], pch=pchs[sels], lty=ltys[sels],
+    legend(legend.pos, legend=labels[sels], pch=pchs[sels], lty=ltys[sels],
            col=cols[sels], inset=0.01, box.col=NA, cex=cex.legend)
 }
 

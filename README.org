@@ -7,6 +7,7 @@ The "*Xtools*" package contains R functions and shiny apps for:
 + calculating LT50s (half leathal temperature) with EL (electrolyte leakage) data
 + plotting LT50 curves
 + processing qPCR data with "HTqPCR" and "ddCt" packages from BioConductor
++ set significant labels for multi comparisons: if the labels of two samples have any overlapped letter, the difference between the samples is not significant.
 
 You can use these tools freely.
 --------------
@@ -15,6 +16,7 @@ You can use these tools freely.
 + 使用EL（电导率渗漏）数据计算LT50（半致死温度）
 + 绘制LT50曲线
 + 使用BioC的HTqPCR和ddCt软件包处理qPCR数据
++ 设置多样本数据比较的显著性标记：如果两样本的有任一相同字母标记，则此对样本无显著差异
 
 您可以自由使用本软件包。
 ---------------
