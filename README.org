@@ -30,8 +30,8 @@ The package can be install with *devtools* from *github* by execute the followin
 #+END_SRC
 -------------
 
-* About LT50 calculation and
-For LT50 data processing, please run:
+* About LT50 (half lethal temperature) calculation
+We use electrolyte leakage data to calculate LT50. The functions are integrated in a shiny app:
 #+BEGIN_SRC R :exports code :tangle no :eval never :ravel eval=FALSE
   ## install.packages('shiny')
   require('Xtools')
@@ -48,4 +48,8 @@ To run these app, please try the following codes in R console or RStudio:
 #+END_SRC
 
 The shiny web app will run locally.
+
+* Other functions and tools
+Please refer to the package man page after installation.
+
 --------------------
