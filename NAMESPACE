@@ -2,6 +2,7 @@
 
 S3method(plot,LT50)
 export(LT50s.shiny.app)
+export(bioc.upgrade)
 export(calHTqPCR)
 export(calTags)
 export(errorbar)

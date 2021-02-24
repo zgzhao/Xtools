@@ -15,7 +15,7 @@
 #' @author ZG Zhao
 #' @export
 read.qPCRtable <- function(fname, na.value=40, ...) {
-	if(missing(fname)) stop("No input fname specified")
+    if(missing(fname)) stop("No input fname specified")
     dt.raw  <- read.table(fname, header = TRUE, ...)
     for(cc in colnames(dt.raw)) {
         dcc <- dt.raw[, cc]
@@ -80,7 +80,7 @@ read.qPCRtable <- function(fname, na.value=40, ...) {
 
     colnames(X) <- NULL
     X.flags <- data.frame(matrix("Passed", ncol=nsamples, nrow=nspots))
-	X.cat   <- data.frame(matrix("OK", ncol=nsamples, nrow=nspots),
+    X.cat   <- data.frame(matrix("OK", ncol=nsamples, nrow=nspots),
                           stringsAsFactors=FALSE)
     htset <- new("qPCRset", exprs=X, phenoData=sample.info, featureData=featData,
         featureCategory=X.cat, flag=X.flags, CtHistory=data.frame())
@@ -207,12 +207,31 @@ calHTqPCR <- function(dt, ref.gene, comp.strings=NULL, comp.type=1, norm.method=
     results
 }
 
+#' Install Bioconductor packages
+#'
+#' "BiocManger" package will be installed if missing.
+#' @title Install Bioconductor packages
+#' @param pkgs character vector, names of packages to be installed
+#' @param ... params passing to \code{\link{BiocManager::install}}
 #' @export
 install.bioc <- function(pkgs=character(), ...){
     xpkgs <- .packages(all.available = TRUE)
     if(! "BiocManager" %in% xpkgs) install.packages("BiocManager")
     pkgs <- setdiff(pkgs, xpkgs)
-    BiocManager::install(pkgs, ask = FALSE, ...)
+    if(length(pkgs) > 0) BiocManager::install(pkgs, ask = FALSE, ...)
+}
+
+#' Update Bioconductor packages in your system
+#'
+#' Running this function will automatically upgrade the installed bioconductor packages in your system.
+#' @title bioc.update
+#' @return no return value
+#' @author ZG Zhao
+#' @export
+bioc.upgrade <- function(){
+    remove.packages(c("BiocManager", "BiocVersion"))
+    install.packages("BiocManager")
+    BiocManager::install(update=TRUE, ask=FALSE)
 }
 
 #' Shiny app for qPCR data processing.
