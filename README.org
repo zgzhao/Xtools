@@ -36,6 +36,8 @@ We use electrolyte leakage data to calculate LT50. The functions are integrated 
   require('Xtools')
   LT50s.shiny.app()
 #+END_SRC
+It should look like this:
+[[./inst/images/shiny.lt50.png]]
 
 * About qPCR data analysis
 Data (Ct values) analysis are carried out with HTqPCR and ddCt R packages. They are integrated into a single shiny app in the Xtools package.
@@ -44,8 +46,10 @@ To run the app, please run the following codes in R console or RStudio:
   require('Xtools')
   qPCR.shiny.app()
 #+END_SRC
-
 The shiny web app will run locally.
+It should look like this:
+[[./inst/images/shiny.qpcr.png]]
+
 
 * Other functions and tools
 Please refer to the package man page after installation.
