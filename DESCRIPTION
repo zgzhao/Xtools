@@ -4,7 +4,7 @@ Date: 2021-02-24
 Title: Xtools: handy tools for daily data analysis
 Author: Zhiguang Zhao
 Maintainer: Zhiguang Zhao <zgzhao@foxmail.com>
-Description: A set of tools for data analysis used often in my lab groups.
+Description: A set of tools for data analysis used often in my lab groups, including shiny apps for LT50 (half lethal temperature) and qPCR data analysis.
 Depends:
     R (>= 4.0),
     ggplot2,
