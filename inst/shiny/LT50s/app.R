@@ -3,12 +3,9 @@ shinyApp(
     ##* UI section ==========================================
     ui=fluidPage(
         ##** header
-        responsive=FALSE,
-        tags$head(
-            tags$link(rel = "stylesheet", type = "text/css", href = "http://ppmb.lzu.edu.cn/css/shiny.css")
-        ),
-        includeHTML("http://ppmb.lzu.edu.cn/includes/shiny.header.html"),
-        
+        includeCSS("www/style.css"),
+        includeHTML("www/header.html"),
+
         HTML("<div class='content'>"),
         h1("低温半致死温度计算"),
         ##** Layout
@@ -117,9 +114,9 @@ shinyApp(
                 )
             )
         ), 
-        HTML("</div>"), 
-        includeHTML("http://ppmb.lzu.edu.cn/includes/shiny.footer.html")
-    ), 
+        HTML("</div>"),
+        includeHTML("www/footer.html")
+    ),
     ##* server section
     server = function(input, output, session) {
         ##** getData

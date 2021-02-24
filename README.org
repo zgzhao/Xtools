@@ -12,10 +12,10 @@ The "*Xtools*" package contains R functions and shiny apps for:
 You can use these tools freely.
 --------------
 
-"*Xtools*" 是一个R软件包，目前包含的R函数和shiny应用可用于以下方面：
-+ 使用EL（电导率渗漏）数据计算LT50（半致死温度）
-+ 绘制LT50曲线
-+ 使用BioC的HTqPCR和ddCt软件包处理qPCR数据
+"*Xtools*" 是一个 R 软件包，目前包含的 R 函数和 shiny 应用可用于以下方面：
++ 使用 EL（电导率渗漏）数据计算 LT50（半致死温度）
++ 绘制 LT50 曲线
++ 使用 BioC 的 HTqPCR 和 ddCt 软件包处理 qPCR 数据
 + 设置多样本数据比较的显著性标记：如果两样本的有任一相同字母标记，则此对样本无显著差异
 
 您可以自由使用本软件包。
@@ -30,20 +30,24 @@ The package can be install with *devtools* from *github* by execute the followin
 #+END_SRC
 -------------
 
-* Using shiny apps / shiny应用程序使用方法
+* Using shiny apps / shiny 应用程序使用方法
 
 For LT50 data processing, please run:
 
-对于LT50数据处理，请运行下面语句：
+对于 LT50 数据处理，请运行下面语句：
 #+BEGIN_SRC R :exports code :tangle no :eval never :ravel eval=FALSE
   ## install.packages('shiny')
   require('Xtools')
   LT50s.shiny.app()
 #+END_SRC
 
-For qPCR data processing, please run:
+For qPCR data processing, please install "HTqPCR" and "ddCt" packages from Bioconductor:
+#+begin_src R :exports code :tangle yes :eval never :ravel eval=FALSE
+  install.packages("BiocManager")
+  BiocManager::install(c("HTqPCR", "ddCt"), ask=FALSE)
+#+end_src
 
-对于qPCR数据处理，请运行下面语句：
+After all required packages installed, run shiny app:
 #+BEGIN_SRC R :exports code :tangle no :eval never :ravel eval=FALSE
   ## install.packages('shiny')
   require('Xtools')
@@ -52,6 +56,6 @@ For qPCR data processing, please run:
 
 The shiny web app will run locally.
 
-以上语句将在您的机器上运行shiny web应用程序。
+以上语句将在您的机器上运行 shiny web 应用程序。
 
 --------------------

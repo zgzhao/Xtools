@@ -1,16 +1,21 @@
 Package: Xtools
-Version: 0.2.0
-Date: 2020-06-06
-Title: My data analysis tools
+Version: 0.5.1
+Date: 2021-02-24
+Title: Xtools: handy data analysis tools
 Author: Zhiguang Zhao
 Maintainer: Zhiguang Zhao <zgzhao@foxmail.com>
-Description: My data analysis tools
+Description: A set of tools for data analysis used often in my lab groups.
 Depends:
-    R (>= 3.6.0),
-    tcltk,
+    R (>= 4.0),
+    shiny,
     ggplot2,
     scales,
-    xtable,	
+    xtable,
     RColorBrewer
-License: GPL (>= 2)
-RoxygenNote: 7.1.0
+Suggests:
+    BiocManager,
+    HTqPCR,
+    ddCt
+License: GPL-3
+Encoding: UTF-8
+RoxygenNote: 7.1.1

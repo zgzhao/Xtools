@@ -1,4 +1,7 @@
 ## get p-value of t.test for each pair of samples.
+
+
+##' @export
 pairWisePval <- function(dtx, scol = NULL) {
     if (! (is.data.frame(dtx) | is.matrix(dtx)) ) stop("Input data must be matrix or data.frame.")
     snames <- if (! is.null(scol)) dtx[[scol]] else paste0("SMP", 1:nrow(dtx))
@@ -8,12 +11,13 @@ pairWisePval <- function(dtx, scol = NULL) {
     
     s1 <- s2 <- pp <- NULL
     for (i in 1:(nn - 1)) {
-        dd1 <- dx[i, ]
+        dd1 <- unlist(dx[i, ])
         for (j in (i + 1):nn) {
-            dd2 <- dx[j, ]
+            dd2 <- unlist(dx[j, ])
             s1 <- c(s1, snames[i])
             s2 <- c(s2, snames[j])
-            pp <- c(pp, t.test(dd1, dd2)$p.value)
+            px <- if(all(sort(dd1) == sort(dd2))) 1 else t.test(dd1, dd2)$p.value
+            pp <- c(pp, px)
         }
     }
     data.frame(S1 = s1, S2 = s2, P = pp)
@@ -22,7 +26,8 @@ pairWisePval <- function(dtx, scol = NULL) {
 ## get p value from table for given samples.
 getxp <- function(pTable, s1, s2) {
     ss <- unlist(apply(pTable[, 1:2], 1, FUN = function(x) length(setdiff(c(s1, s2), x)) == 0))
-    pTable[[3]][ss]
+    rr <- pTable[[3]][ss]
+    rr[1]
 }
 
 getPmatrix <- function(pTable, sNames) {
@@ -53,12 +58,13 @@ xsignature <- function(lst){
 setltts <- function(sNames, pTable){
     nn <- length(sNames)
     nsp <- apply(getPmatrix(pTable, sNames), 1, FUN = function(x) which(x >= 0.05))
+    if(! is.list(nsp)) nsp <- as.list(as.data.frame(nsp))
     ltts <- rep("", nn)
     nx <- 1
     for(i in 1:nn) {
         if(ltts[i] != "") next
-        xx <- nsp[[i]]
-        ss <- sapply(nsp, FUN = function(x) identical(x, xx))
+        aa <- nsp[[i]]
+        ss <- sapply(nsp, FUN = function(bb) identical(aa, bb))
         ltts[ss & ltts == ""] <- letters[nx]
         nx <- nx + 1
     }
@@ -97,13 +103,17 @@ sigLabsPT <- function(sNames, pTable, scol1 = 1, scol2 = 2, pcol = 3) {
 
     ## 2. add letter to sample with p<0.05 if not yet have an identical letter
     xset <- apply(getPmatrix(pTable, sNames), 1, FUN = function(x) which(x >= 0.05))
+    if(! is.list(xset)) xset <- as.list(as.data.frame(xset))
+    names(xset) <- NULL
     xndx <- as.numeric(names(sort(table(unlist(xset)))))
     for(ndx in xndx) {
         ## indices of all sets containing sample ndx
         xnn <- which(sapply(xset, FUN = function(x) {ndx %in% x}))
+        names(xnn) <- NULL
         for(xx in xnn){
-            if(length(intersect(lbs[[ndx]], lbs[[xx]])) < 1)
+            if(length(intersect(lbs[[ndx]], lbs[[xx]])) < 1) {
                 lbs[xx] <- list(c(lbs[[xx]], ltts[ndx]))
+            }
         }
     }
     ## 3. remove redundant letters
@@ -157,16 +167,17 @@ sigLabsPT <- function(sNames, pTable, scol1 = 1, scol2 = 2, pcol = 3) {
 #'   scale_y_continuous(expand = c(0, 0)) + geom_blank(aes(y = (MM + SD) * 1.15)) +
 #'   facet_wrap(~Plant, nrow=1)
 sigLabsDT <- function(dt, col.data = 1:ncol(dt), group.by = NULL) {
-    lbs <- NULL
     if(is.null(group.by)) {
         dt$XTREATGROUP <- 1
         group.by <- "XTREATGROUP"
     }
+    lbs <- rep("", nrow(dt))
     for(pp in unique(dt[[group.by]])) {
-        dx <- dt[dt[[group.by]] == pp, col.data]
+        ss <- dt[[group.by]] == pp
+        dx <- dt[ss, col.data]
         pt <- pairWisePval(dx)
         lbx <- sigLabsPT(paste0("SMP", 1:nrow(dx)), pt)
-        lbs <- c(lbs, lbx)
+        lbs[ss] <- lbx
     }
     lbs
 }
