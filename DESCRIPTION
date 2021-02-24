@@ -7,7 +7,6 @@ Maintainer: Zhiguang Zhao <zgzhao@foxmail.com>
 Description: A set of tools for data analysis used often in my lab groups.
 Depends:
     R (>= 4.0),
-    shiny,
     ggplot2,
     scales,
     xtable,
