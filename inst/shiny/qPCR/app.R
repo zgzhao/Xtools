@@ -66,13 +66,13 @@ shinyApp(
                 )
             )
         ), 
-        ##* end UI
+        ## end UI
         HTML("</div>"),
         includeHTML("www/footer.html")
     ),
-    ##* server section
+    ## server section
     server = function(input, output, session) {
-    ##** set files
+    ## set files
     setData <- reactive({
         f <- input$dtfile
         if(is.null(f)) return(NULL)
@@ -107,13 +107,13 @@ shinyApp(
         return(list(data=xx, data.ht=htset, data.ddct=ddset))
     })
 
-    ##*** 原始数据输出
+    ## 原始数据输出
     output$datax <- renderTable({
         info <- setData()
         if(is.null(info)) NULL else setData()$data
     })
 
-    ##*** HTqPCR：数据分析
+    ## HTqPCR：数据分析
     resultHTqPCR <- reactive({
         info <- setData()
         if(is.null(info)) return(NULL)
@@ -124,7 +124,7 @@ shinyApp(
         return(res)
     })
 
-    ##*** Limma (HTqPCR)
+    ## Limma (HTqPCR)
     calLimma <- reactive({
         info <- resultHTqPCR()
         if(is.null(info)) return(NULL)
@@ -142,21 +142,21 @@ shinyApp(
         res <- res[order(res$Label, res$genes), ]
         res[! res$genes %in% input$Refs, ]
     })
-    ##** HTqPCR：输出Limma结果
+    ## HTqPCR：输出Limma结果
     output$resultLimma <- renderTable({
         dt <- calLimma()
         if(is.null(dt)) return(NULL)
         dt
     })
 
-    ##** Limma结果下载UI
+    ## Limma结果下载UI
     output$saveLimma <- downloadHandler(
         filename = "results.expr.limma.csv",
         content = function(file){
         write.csv(calLimma(), file, row.names=FALSE, sep='\t')
     })
 
-    ##** 归一化结果图
+    ## 归一化结果图
     output$FigNorm <- renderPlot({
         info1 <- setData()
         info2 <- resultHTqPCR()
@@ -165,7 +165,7 @@ shinyApp(
              col = rep(brewer.pal(6, "Spectral")))
     })
 
-    ##** ddCt计算
+    ## ddCt计算
     resultDdct <- reactive({
         info <- setData()
         if(is.null(info)) return(NULL)
@@ -193,27 +193,27 @@ shinyApp(
         list(relative=expr.rel, absolute=expr.abs)
     })
 
-    ##** 输出相对表达量
+    ## 输出相对表达量
     output$ddctRelative <- renderTable({
         info <- resultDdct()
         if(is.null(info)) return(NULL)
         info$relative
     })
 
-    ##** 输出绝对表达量
+    ## 输出绝对表达量
     output$ddctAbsolute <- renderTable({
         info <- resultDdct()
         if(is.null(info)) return(NULL)
         info$absolute
     })
 
-    ##** 相对表达量下载UI
+    ## 相对表达量下载UI
     output$saveRelative <- downloadHandler(
         filename = "results.expr.rel.csv",
         content = function(file){
         write.csv(resultDdct()$relative, file, row.names=FALSE, sep='\t')
     })
-    ##** 绝对表达量下载UI
+    ## 绝对表达量下载UI
     output$saveAbsolute <- downloadHandler(
         filename = "results.expr.abs.csv",
         content = function(file){
