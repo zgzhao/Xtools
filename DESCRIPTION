@@ -1,13 +1,14 @@
 Package: Xtools
 Version: 0.5.1
 Date: 2021-02-24
-Title: Xtools: handy data analysis tools
+Title: Xtools: handy tools for daily data analysis
 Author: Zhiguang Zhao
 Maintainer: Zhiguang Zhao <zgzhao@foxmail.com>
 Description: A set of tools for data analysis used often in my lab groups.
 Depends:
     R (>= 4.0),
     ggplot2,
+    reshape2,
     scales,
     xtable,
     RColorBrewer

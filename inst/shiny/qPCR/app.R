@@ -1,7 +1,5 @@
 library('HTqPCR')
 library('ddCt')
-library('reshape2')
-library('RColorBrewer')
 library('Xtools')
 
 shinyApp(
@@ -21,25 +19,28 @@ shinyApp(
                 fileInput("dtfile", h4("Upload file"), accept = c('text/csv', 'text/comma-separated-values', 'text/tab-separated-values',
                                                                   'text/plain', '.csv', '.txt')),
                 radioButtons("Sep", h4("Data seperator (in file)"), choices=c('comma', 'tab', 'space'), inline=TRUE),
-                checkboxGroupInput("Refs", h4("Reference gene"), choices=''),
-                radioButtons("Mock", h4("Control sample（Relative expression only）"), choices='')
+                checkboxGroupInput("Refs", h4("Set reference gene(s)"), choices=''),
+                radioButtons("Mock", h4("Set control sample"), choices='')
             ),
             ## main panel
             mainPanel(
                 tabsetPanel(
-                    tabPanel("DataView",
+                    tabPanel("Data view",
                              tableOutput("datax")
                              ),
-                    tabPanel("ddCt",
+                    tabPanel("Ct quality", plotOutput("FigNorm", width="600px", height="600px")),
+                    tabPanel("Expression",
                              tabsetPanel(type='pills',
-                                         tabPanel("Expression (relative)",
+                                         tabPanel("Relative levels",
+                                                  h4("Gene expression levels are normalized with 'Control sample'"),
                                                   conditionalPanel(
                                                       condition="output.ddctRelative",
                                                       downloadButton('saveRelative', 'download result'), br(), br()
                                                   ), 
                                                   tableOutput("ddctRelative")
                                                   ),
-                                         tabPanel("Expression (obsolute)",
+                                         tabPanel("Obsolute values",
+                                                  h4("Gene expression levels are normalized with reference genes only."),
                                                   conditionalPanel(
                                                       condition="output.ddctAbsolute",
                                                       downloadButton('saveAbsolute', 'download result'), br(), br()
@@ -48,25 +49,20 @@ shinyApp(
                                                   )
                                          )
                              ),
-                    tabPanel("HTqPCR",
-                             tabsetPanel(type='pills',
-                                         tabPanel("Ct normalization", plotOutput("FigNorm", width="600px", height="600px")),
-                                         tabPanel("Sample comparison",
-                                                  radioButtons("compType", h4("two sample comparison"), choices=c("Single control", "Free input"), inline=TRUE),
-                                                  HTML('<label for="Comps">Single control: input a sample name (copy from left panel).</br>',
-                                                       'Free input: input comparisons like this：T1:CK, T2:CK</label><input id="Comps" type="text" value="" style="width: 95%" />'
-                                                       ),
-                                                  br(),
-                                                  conditionalPanel(
-                                                      condition="output.resultLimma",
-                                                      downloadButton('saveLimma', 'download result')
-                                                  ),
-                                                  br(),
-                                                  tableOutput("resultLimma")
-                                                  )
-                                         )
+                    tabPanel("P value",
+                             radioButtons("compType", h4("Pair-wised comparison"), choices=c("Single control", "Free input"), inline=TRUE),
+                             HTML('<label for="Comps">Single control: input a sample name (copy from left panel).</br>',
+                                  'Free input: input comparisons like this：T1:CK, T2:CK</label><input id="Comps" type="text" value="" style="width: 95%" />'
+                                  ),
+                             br(),
+                             conditionalPanel(
+                                 condition="output.resultLimma",
+                                 downloadButton('saveLimma', 'download result')
                              ),
-                    tabPanel("Data format", includeHTML("www/data.format.html"))
+                             br(),
+                             tableOutput("resultLimma")
+                             ),
+                    tabPanel("Help", includeHTML("www/data.format.html"))
                 )
             )
         ), 
