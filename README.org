@@ -33,16 +33,14 @@ The package can be install with *devtools* from *github* by execute the followin
 * About LT50 (half lethal temperature) calculation
 We use electrolyte leakage data to calculate LT50. The functions are integrated in a shiny app:
 #+BEGIN_SRC R :exports code :tangle no :eval never :ravel eval=FALSE
-  ## install.packages('shiny')
   require('Xtools')
   LT50s.shiny.app()
 #+END_SRC
 
 * About qPCR data analysis
 Data (Ct values) analysis are carried out with HTqPCR and ddCt R packages. They are integrated into a single shiny app in the Xtools package.
-To run these app, please try the following codes in R console or RStudio:
+To run the app, please run the following codes in R console or RStudio:
 #+BEGIN_SRC R :exports code :tangle no :eval never :ravel eval=FALSE
-  ## install.packages('shiny')
   require('Xtools')
   qPCR.shiny.app()
 #+END_SRC
