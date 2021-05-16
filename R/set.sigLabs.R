@@ -59,6 +59,18 @@ setltts <- function(sNames, pTable){
     ltts
 }
 
+## "signature" or fingerprint of a list
+xsignature <- function(lst){
+  nn <- length(lst)
+  ft <- NULL
+  for(i in 1:nn)
+    for(j in 1:nn) {
+      xss <- intersect(lst[[i]], lst[[j]])
+      ft <- if(length(xss) < 1) c(ft, 0) else c(ft, 1)
+    }
+  paste(ft, collapse = "")
+}
+
 #' sigLabsPT: set significant labels for multiple comparisons with given p-value table
 #'
 #' Get/set significant labels for multiple comparisons. Samples with any identical letter are not significant different.
@@ -92,11 +104,32 @@ sigLabsPT <- function(sNames, pTable, scol1 = 1, scol2 = 2, pcol = 3) {
     nsp <- as.list(as.data.frame(nsp))
     for(i in 1:length(ltts)) {
         lbx <- c(lbs[[i]], ltts[nsp[[i]]])
-        lbs[[i]] <- unique(lbx)
+        lbs[[i]] <- sort(unique(lbx))
     }
-    ## 3. convert vector to string and adjust letter sequence
+
+    ## 3. remove redundant letters
+    ## if "figureprint" does not change after removing the letter,
+    ## then the letter is redundant.
+    ft0 <- xsignature(lbs)
+    lttx <- ltts
+    for(aa in ltts) {
+        if(! aa %in% lttx) next
+        lbx <- lapply(lbs, FUN = function(x) setdiff(x, aa))
+        if(any(sapply(lbx, FUN = function(x) length(x) < 1))) next
+        if(xsignature(lbx) == ft0) {
+            lbs <- lbx
+            lttx <- setdiff(lttx, aa)
+        }
+    }
+    ## 4. convert vector to string and adjust letter sequence
     lbs <- lapply(lbs, FUN = sort)
     lbs <- sapply(lbs, FUN = paste, collapse = "")
+    if(length(ltts) > length(lttx)) {
+        loo <- paste(lttx, collapse = "")
+        lnn <- paste(letters[1:nchar(loo)], collapse = "")
+        lbs <- chartr(loo, lnn, lbs)
+    }
+
     lbs
 }
 
