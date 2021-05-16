@@ -11,7 +11,11 @@ pairWisePval <- function(dls) {
             dd2 <- dls[[j]]
             s1 <- c(s1, snames[i])
             s2 <- c(s2, snames[j])
-            px <- if(all(sort(dd1) == sort(dd2))) 1 else t.test(dd1, dd2)$p.value
+            if(length(dd1) != length(dd2))
+                px <- t.test(dd1, dd2)$p.value
+            else if(all(sort(dd1) == sort(dd2)))
+                px <- 1
+            else px <- t.test(dd1, dd2)$p.value
             pp <- c(pp, px)
         }
     }
@@ -51,11 +55,18 @@ xsignature <- function(lst){
 }
 
 ## set letter for samples
-#' @export
+xlist <- function(x){
+    if(is.matrix(x)) {
+        x <- as.data.frame(t(x))
+        x <- as.list(x)
+    }
+    if(!is.list(x)) x <- as.list(x)
+    x
+}
 setltts <- function(sNames, pTable){
     nn <- length(sNames)
     nsp <- apply(getPmatrix(pTable, sNames), 1, FUN = function(x) which(x >= 0.05))
-    if(! is.list(nsp)) nsp <- as.list(nsp)
+    nsp <- xlist(nsp)
     names(nsp) <- NULL
     ltts <- rep("", nn)
     nx <- 1
@@ -101,7 +112,7 @@ sigLabsPT <- function(sNames, pTable, scol1 = 1, scol2 = 2, pcol = 3) {
 
     ## 2. add letter to sample with p<0.05 if not yet have an identical letter
     xset <- apply(getPmatrix(pTable, sNames), 1, FUN = function(x) which(x >= 0.05))
-    if(! is.list(xset)) xset <- as.list(xset)
+    xset <- xlist(xset)
     names(xset) <- NULL
     xndx <- as.numeric(names(sort(table(unlist(xset)))))
     for(ndx in xndx) {
@@ -178,7 +189,7 @@ sigLabsDT <- function(dt, col.data = 1:ncol(dt), col.labels=NULL,
     if(length(col.data) == 1) {
         ## long format data
         fml <- substitute(x ~ ., list(x=as.name(col.data)))
-        dt <- aggregate(fml, data=dt, FUN=c)
+        dt <- aggregate(formula(fml), data=dt, FUN=c)
     } else {
         ## short format data
         dxx <- as.data.frame(t(dt[, col.data]))
@@ -190,11 +201,14 @@ sigLabsDT <- function(dt, col.data = 1:ncol(dt), col.labels=NULL,
     if(is.null(group.by)) {
         dt$XTREATGROUP <- 1
         group.by <- "XTREATGROUP"
-    }
+    } else if(is.numeric(group.by)) {
+        group.by <- cnames[group.by[1]]
+    } else group.by <- group.by[1]
+
     lbs <- rep("", nrow(dt))
     for(pp in unique(dt[[group.by]])) {
         ss <- dt[[group.by]] == pp
-        dx <- dt[ss, ][[col.data]]
+        dx <- dt[[col.data]][ss]
         pt <- pairWisePval(dx)
         lbx <- sigLabsPT(paste0("SMP", 1:sum(ss)), pt)
         lbs[ss] <- lbx
@@ -204,6 +218,7 @@ sigLabsDT <- function(dt, col.data = 1:ncol(dt), col.labels=NULL,
         dt$sd <- unlist(lapply(dt[[col.data]], FUN=sd, na.rm=TRUE))
         dt <- dt[, c(col.labels, "mean", "sd")]
         dt$siglabs <- lbs
+        dt <- dt[order(dt[[group.by]]), ]
         dt
     } else lbs
 }
