@@ -1,5 +1,4 @@
 ## get p-value of t.test for each pair of samples.
-#' @export
 pairWisePval <- function(dls) {
     ## dls: list
     nn <- length(dls)
@@ -29,7 +28,6 @@ getxp <- function(pTable, s1, s2) {
     rr[1]
 }
 
-#' @export
 getPmatrix <- function(pTable, sNames) {
     nn <- length(sNames)
     res <- NULL
@@ -195,9 +193,12 @@ sigLabsDT <- function(dt, col.data = 1:ncol(dt), col.labels=NULL,
         dxx <- as.data.frame(t(dt[, col.data]))
         dxx <- as.list(dxx)
         names(dxx) <- NULL
-        dt$XGGDATA <- dxx
-        col.data <- "XGGDATA"
+        dt$CLEANDATA <- dxx
+        col.data <- "CLEANDATA"
     }
+    dtcheck <- lapply(dt[[col.data]], FUN=is.numeric)
+    if(! all(unlist(dtcheck))) stop("Required numeric data columns!")
+
     if(is.null(group.by)) {
         dt$XTREATGROUP <- 1
         group.by <- "XTREATGROUP"
