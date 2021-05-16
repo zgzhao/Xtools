@@ -151,7 +151,6 @@ sigLabsPT <- function(sNames, pTable, scol1 = 1, scol2 = 2, pcol = 3) {
 #' str(dt)
 #' dx <- sigLabsDT(dt, col.data=4:7, group.by="Plant", stat.vals=TRUE)
 #' dx
-#' dx$offset <- max(dx$mean+dx$sd)*0.05
 #' library("ggplot2")
 #' px <- ggplot(dx, aes(x=Leaf, y=mean, fill=Treat)) + theme_bw(base_size = 16)
 #' px + geom_bar(stat="identity", position=position_dodge(.9), width=0.8, color="gray20") +
@@ -196,7 +195,7 @@ sigLabsDT <- function(dt, col.data = 1:ncol(dt), col.labels=NULL,
     for(pp in unique(dt[[group.by]])) {
         ss <- dt[[group.by]] == pp
         dx <- dt[[col.data]][ss]
-        xnames <- paste0("SMP", 1:sum(ss))
+        xnames <- unlist(apply(dt[ss, col.labels], 1, paste0, collapse="-"))
         names(dx) <- xnames
         pt <- pairWisePval(dx)
         lbx <- sigLabsPT(xnames, pt)
@@ -208,6 +207,12 @@ sigLabsDT <- function(dt, col.data = 1:ncol(dt), col.labels=NULL,
         dt$sd <- unlist(lapply(dt[[col.data]], FUN=sd, na.rm=TRUE))
         dt <- dt[, c(col.labels, "mean", "sd")]
         dt$siglabs <- lbs
+        dt$offset <- 0
+        gg <- dt[[group.by]]
+        for(tt in unique(gg)){
+            ss <- gg == tt
+            dt$offset[ss] <- max(dt$mean[ss] + dt$sd[ss]) * 0.05
+        }
         attr(dt, "pTables") <- pts
         dt
     } else lbs
