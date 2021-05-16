@@ -1,19 +1,14 @@
 ## get p-value of t.test for each pair of samples.
-
-
-##' @export
-pairWisePval <- function(dtx, scol = NULL) {
-    if (! (is.data.frame(dtx) | is.matrix(dtx)) ) stop("Input data must be matrix or data.frame.")
-    snames <- if (! is.null(scol)) dtx[[scol]] else paste0("SMP", 1:nrow(dtx))
-    dx <- dtx[, setdiff(1:ncol(dtx), scol)]
-    nn <- nrow(dx)
-    if ( nn < 2) stop("You should have at least 2 data rows.")
-    
+#' @export
+pairWisePval <- function(dls) {
+    ## dls: list
+    nn <- length(dls)
+    snames <- paste0("SMP", 1:nn)
     s1 <- s2 <- pp <- NULL
     for (i in 1:(nn - 1)) {
-        dd1 <- unlist(dx[i, ])
+        dd1 <- dls[[i]]
         for (j in (i + 1):nn) {
-            dd2 <- unlist(dx[j, ])
+            dd2 <- dls[[j]]
             s1 <- c(s1, snames[i])
             s2 <- c(s2, snames[j])
             px <- if(all(sort(dd1) == sort(dd2))) 1 else t.test(dd1, dd2)$p.value
@@ -30,6 +25,7 @@ getxp <- function(pTable, s1, s2) {
     rr[1]
 }
 
+#' @export
 getPmatrix <- function(pTable, sNames) {
     nn <- length(sNames)
     res <- NULL
@@ -42,7 +38,7 @@ getPmatrix <- function(pTable, sNames) {
     res
 }
 
-## "signature" or figureprint of a list
+## "signature" or fingerprint of a list
 xsignature <- function(lst){
     nn <- length(lst)
     ft <- NULL
@@ -55,10 +51,12 @@ xsignature <- function(lst){
 }
 
 ## set letter for samples
+#' @export
 setltts <- function(sNames, pTable){
     nn <- length(sNames)
     nsp <- apply(getPmatrix(pTable, sNames), 1, FUN = function(x) which(x >= 0.05))
-    if(! is.list(nsp)) nsp <- as.list(as.data.frame(nsp))
+    if(! is.list(nsp)) nsp <- as.list(nsp)
+    names(nsp) <- NULL
     ltts <- rep("", nn)
     nx <- 1
     for(i in 1:nn) {
@@ -103,7 +101,7 @@ sigLabsPT <- function(sNames, pTable, scol1 = 1, scol2 = 2, pcol = 3) {
 
     ## 2. add letter to sample with p<0.05 if not yet have an identical letter
     xset <- apply(getPmatrix(pTable, sNames), 1, FUN = function(x) which(x >= 0.05))
-    if(! is.list(xset)) xset <- as.list(as.data.frame(xset))
+    if(! is.list(xset)) xset <- as.list(xset)
     names(xset) <- NULL
     xndx <- as.numeric(names(sort(table(unlist(xset)))))
     for(ndx in xndx) {
@@ -145,9 +143,11 @@ sigLabsPT <- function(sNames, pTable, scol1 = 1, scol2 = 2, pcol = 3) {
 #'
 #' 1. get t-test p-value table of pairwise compairison; 2. set siglabs with function sigLabsPT.
 #' @title sigLabsDT
-#' @param dt data.frame, repeats in columns, one row for each treatment/sample
-#' @param col.data column index of data (repeats)
-#' @param group.by column index of groups. If set, siglabs will be set independently for each group.
+#' @param dt data.frame. Support data of both long and short format.
+#' @param col.data column indices or names for data. If only one column, the data.frame is treated as long format; otherwise the data.frame should be short format.
+#' @param col.labels column indices or names for labels.
+#' @param group.by column name or index for grouping. If set, siglabs will be set independently for each group.
+#' @param stat.vals TRUE/FALSE(default). If FALSE (typically for short format data), return significant labels (vector) only; otherwise, return a data.frame.
 #' @return string vector of significant letter
 #' @author ZG Zhao
 #' @export
@@ -155,18 +155,38 @@ sigLabsPT <- function(sNames, pTable, scol1 = 1, scol2 = 2, pcol = 3) {
 #' library("Xtools")
 #' dt <- read.csv(file.path(path.package("Xtools"), "data", "data.measure.csv"))
 #' str(dt)
-#' dx <- cbind(dt[, 1:3], siglabs=sigLabsDT(dt, col.data=4:7, group.by="Plant"))
-#' dx$MM <- apply(dt[,4:7], 1, FUN=mean, na.rm=TRUE)
-#' dx$SD <- apply(dt[,4:7], 1, FUN=sd, na.rm=TRUE)
-#' dx$offset <- max(dx$MM+dx$SD)*0.05
+#' dx <- sigLabsDT(dt, col.data=4:7, group.by="Plant", stat.vals=TRUE)
+#' dx
+#' dx$offset <- max(dx$mean+dx$sd)*0.05
 #' library("ggplot2")
-#' px <- ggplot(dx, aes(x=Leaf, y=MM, fill=Treat)) + theme_bw(base_size = 16)
+#' px <- ggplot(dx, aes(x=Leaf, y=mean, fill=Treat)) + theme_bw(base_size = 16)
 #' px + geom_bar(stat="identity", position=position_dodge(.9), width=0.8, color="gray20") +
-#'   geom_errorbar(aes(ymin=MM - SD, ymax=MM + SD), position = position_dodge(.9), width=0.5) +
-#'   geom_text(aes(y=MM + SD + offset, label=siglabs), position=position_dodge(.9), size=5) +
-#'   scale_y_continuous(expand = c(0, 0)) + geom_blank(aes(y = (MM + SD) * 1.15)) +
+#'   geom_errorbar(aes(ymin=mean - sd, ymax=mean + sd), position = position_dodge(.9), width=0.5) +
+#'   geom_text(aes(y=mean + sd + offset, label=siglabs), position=position_dodge(.9), size=5) +
+#'   scale_y_continuous(expand = c(0, 0)) + geom_blank(aes(y = (mean + sd) * 1.15)) +
 #'   facet_wrap(~Plant, nrow=1)
-sigLabsDT <- function(dt, col.data = 1:ncol(dt), group.by = NULL) {
+sigLabsDT <- function(dt, col.data = 1:ncol(dt), col.labels=NULL,
+                      group.by = NULL, stat.vals=FALSE) {
+    cnames <- colnames(dt)
+    if(is.numeric(col.data)) col.data <- cnames[col.data]
+    if(is.null(col.labels)) {
+        col.labels <- setdiff(cnames, col.data)
+    } else if(is.numeric(col.labels)) {
+        col.labels <- cnames[col.labels]
+    }
+
+    if(length(col.data) == 1) {
+        ## long format data
+        fml <- substitute(x ~ ., list(x=as.name(col.data)))
+        dt <- aggregate(fml, data=dt, FUN=c)
+    } else {
+        ## short format data
+        dxx <- as.data.frame(t(dt[, col.data]))
+        dxx <- as.list(dxx)
+        names(dxx) <- NULL
+        dt$XGGDATA <- dxx
+        col.data <- "XGGDATA"
+    }
     if(is.null(group.by)) {
         dt$XTREATGROUP <- 1
         group.by <- "XTREATGROUP"
@@ -174,10 +194,16 @@ sigLabsDT <- function(dt, col.data = 1:ncol(dt), group.by = NULL) {
     lbs <- rep("", nrow(dt))
     for(pp in unique(dt[[group.by]])) {
         ss <- dt[[group.by]] == pp
-        dx <- dt[ss, col.data]
+        dx <- dt[ss, ][[col.data]]
         pt <- pairWisePval(dx)
-        lbx <- sigLabsPT(paste0("SMP", 1:nrow(dx)), pt)
+        lbx <- sigLabsPT(paste0("SMP", 1:sum(ss)), pt)
         lbs[ss] <- lbx
     }
-    lbs
+    if(stat.vals) {
+        dt$mean <- unlist(lapply(dt[[col.data]], FUN=mean, na.rm=TRUE))
+        dt$sd <- unlist(lapply(dt[[col.data]], FUN=sd, na.rm=TRUE))
+        dt <- dt[, c(col.labels, "mean", "sd")]
+        dt$siglabs <- lbs
+        dt
+    } else lbs
 }

@@ -4,14 +4,24 @@
 \alias{sigLabsDT}
 \title{sigLabsDT}
 \usage{
-sigLabsDT(dt, col.data = 1:ncol(dt), group.by = NULL)
+sigLabsDT(
+  dt,
+  col.data = 1:ncol(dt),
+  col.labels = NULL,
+  group.by = NULL,
+  stat.vals = FALSE
+)
 }
 \arguments{
-\item{dt}{data.frame, repeats in columns, one row for each treatment/sample}
+\item{dt}{data.frame. Support data of both long and short format.}
 
-\item{col.data}{column index of data (repeats)}
+\item{col.data}{column indices or names for data. If only one column, the data.frame is treated as long format; otherwise the data.frame should be short format.}
 
-\item{group.by}{column index of groups. If set, siglabs will be set independently for each group.}
+\item{col.labels}{column indices or names for labels.}
+
+\item{group.by}{column name or index for grouping. If set, siglabs will be set independently for each group.}
+
+\item{stat.vals}{TRUE/FALSE(default). If FALSE (typically for short format data), return significant labels (vector) only; otherwise, return a data.frame.}
 }
 \value{
 string vector of significant letter
@@ -26,16 +36,15 @@ Set significant labels of multi comparisons with given data.
 library("Xtools")
 dt <- read.csv(file.path(path.package("Xtools"), "data", "data.measure.csv"))
 str(dt)
-dx <- cbind(dt[, 1:3], siglabs=sigLabsDT(dt, col.data=4:7, group.by="Plant"))
-dx$MM <- apply(dt[,4:7], 1, FUN=mean, na.rm=TRUE)
-dx$SD <- apply(dt[,4:7], 1, FUN=sd, na.rm=TRUE)
-dx$offset <- max(dx$MM+dx$SD)*0.05
+dx <- sigLabsDT(dt, col.data=4:7, group.by="Plant", stat.vals=TRUE)
+dx
+dx$offset <- max(dx$mean+dx$sd)*0.05
 library("ggplot2")
-px <- ggplot(dx, aes(x=Leaf, y=MM, fill=Treat)) + theme_bw(base_size = 16)
+px <- ggplot(dx, aes(x=Leaf, y=mean, fill=Treat)) + theme_bw(base_size = 16)
 px + geom_bar(stat="identity", position=position_dodge(.9), width=0.8, color="gray20") +
-  geom_errorbar(aes(ymin=MM - SD, ymax=MM + SD), position = position_dodge(.9), width=0.5) +
-  geom_text(aes(y=MM + SD + offset, label=siglabs), position=position_dodge(.9), size=5) +
-  scale_y_continuous(expand = c(0, 0)) + geom_blank(aes(y = (MM + SD) * 1.15)) +
+  geom_errorbar(aes(ymin=mean - sd, ymax=mean + sd), position = position_dodge(.9), width=0.5) +
+  geom_text(aes(y=mean + sd + offset, label=siglabs), position=position_dodge(.9), size=5) +
+  scale_y_continuous(expand = c(0, 0)) + geom_blank(aes(y = (mean + sd) * 1.15)) +
   facet_wrap(~Plant, nrow=1)
 }
 \author{
