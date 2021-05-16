@@ -2,7 +2,7 @@
 pairWisePval <- function(dls) {
     ## dls: list
     nn <- length(dls)
-    snames <- paste0("SMP", 1:nn)
+    snames <- names(dls)
     s1 <- s2 <- pp <- NULL
     for (i in 1:(nn - 1)) {
         dd1 <- dls[[i]]
@@ -28,6 +28,7 @@ getxp <- function(pTable, s1, s2) {
     rr[1]
 }
 
+#' @export
 getPmatrix <- function(pTable, sNames) {
     nn <- length(sNames)
     res <- NULL
@@ -40,32 +41,12 @@ getPmatrix <- function(pTable, sNames) {
     res
 }
 
-## "signature" or fingerprint of a list
-xsignature <- function(lst){
-    nn <- length(lst)
-    ft <- NULL
-    for(i in 1:nn)
-        for(j in 1:nn) {
-            xss <- intersect(lst[[i]], lst[[j]])
-            ft <- if(length(xss) < 1) c(ft, 0) else c(ft, 1)
-        }
-    paste(ft, collapse = "")
-}
-
 ## set letter for samples
-xlist <- function(x){
-    if(is.matrix(x)) {
-        x <- as.data.frame(t(x))
-        x <- as.list(x)
-    }
-    if(!is.list(x)) x <- as.list(x)
-    x
-}
+#' @export
 setltts <- function(sNames, pTable){
+    nsp <- getPmatrix(pTable, sNames) >= 0.05
+    nsp <- as.list(as.data.frame(nsp))
     nn <- length(sNames)
-    nsp <- apply(getPmatrix(pTable, sNames), 1, FUN = function(x) which(x >= 0.05))
-    nsp <- xlist(nsp)
-    names(nsp) <- NULL
     ltts <- rep("", nn)
     nx <- 1
     for(i in 1:nn) {
@@ -104,47 +85,18 @@ sigLabsPT <- function(sNames, pTable, scol1 = 1, scol2 = 2, pcol = 3) {
 
     ## 1. set unique letter for each sample
     ltts <- setltts(sNames, pTable)
-    nn <- length(sNames)
-    lbs <- NULL
-    for(i in 1:nn) lbs <- c(lbs, list(ltts[i]))
+    lbs <- as.list(ltts)
 
     ## 2. add letter to sample with p<0.05 if not yet have an identical letter
-    xset <- apply(getPmatrix(pTable, sNames), 1, FUN = function(x) which(x >= 0.05))
-    xset <- xlist(xset)
-    names(xset) <- NULL
-    xndx <- as.numeric(names(sort(table(unlist(xset)))))
-    for(ndx in xndx) {
-        ## indices of all sets containing sample ndx
-        xnn <- which(sapply(xset, FUN = function(x) {ndx %in% x}))
-        names(xnn) <- NULL
-        for(xx in xnn){
-            if(length(intersect(lbs[[ndx]], lbs[[xx]])) < 1) {
-                lbs[xx] <- list(c(lbs[[xx]], ltts[ndx]))
-            }
-        }
+    nsp <- getPmatrix(pTable, sNames) >= 0.05
+    nsp <- as.list(as.data.frame(nsp))
+    for(i in 1:length(ltts)) {
+        lbx <- c(lbs[[i]], ltts[nsp[[i]]])
+        lbs[[i]] <- unique(lbx)
     }
-    ## 3. remove redundant letters
-    ## if "figureprint" does not change after removing the letter,
-    ## then the letter is redundant.
-    ft0 <- xsignature(lbs)
-    lttx <- ltts
-    for(aa in ltts) {
-        if(! aa %in% lttx) next
-        lbx <- lapply(lbs, FUN = function(x) setdiff(x, aa))
-        if(any(sapply(lbx, FUN = function(x) length(x) < 1))) next
-        if(xsignature(lbx) == ft0) {
-            lbs <- lbx
-            lttx <- setdiff(lttx, aa)
-        }
-    }
-    ## 4. convert vector to string and adjust letter sequence
+    ## 3. convert vector to string and adjust letter sequence
     lbs <- lapply(lbs, FUN = sort)
     lbs <- sapply(lbs, FUN = paste, collapse = "")
-    if(length(ltts) > length(lttx)) {
-        loo <- paste(lttx, collapse = "")
-        lnn <- paste(letters[1:nchar(loo)], collapse = "")
-        lbs <- chartr(loo, lnn, lbs)
-    }
     lbs
 }
 
@@ -207,19 +159,23 @@ sigLabsDT <- function(dt, col.data = 1:ncol(dt), col.labels=NULL,
     } else group.by <- group.by[1]
 
     lbs <- rep("", nrow(dt))
+    pts <- list()
     for(pp in unique(dt[[group.by]])) {
         ss <- dt[[group.by]] == pp
         dx <- dt[[col.data]][ss]
+        xnames <- paste0("SMP", 1:sum(ss))
+        names(dx) <- xnames
         pt <- pairWisePval(dx)
-        lbx <- sigLabsPT(paste0("SMP", 1:sum(ss)), pt)
+        lbx <- sigLabsPT(xnames, pt)
         lbs[ss] <- lbx
+        pts[[pp]] <- pt
     }
     if(stat.vals) {
         dt$mean <- unlist(lapply(dt[[col.data]], FUN=mean, na.rm=TRUE))
         dt$sd <- unlist(lapply(dt[[col.data]], FUN=sd, na.rm=TRUE))
         dt <- dt[, c(col.labels, "mean", "sd")]
         dt$siglabs <- lbs
-        dt <- dt[order(dt[[group.by]]), ]
+        attr(dt, "pTables") <- pts
         dt
     } else lbs
 }
