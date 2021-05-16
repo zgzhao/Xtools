@@ -172,6 +172,8 @@ sigLabsDT <- function(dt, col.data = 1:ncol(dt), col.labels=NULL,
         ## long format data
         fml <- substitute(x ~ ., list(x=as.name(col.data)))
         dt <- aggregate(formula(fml), data=dt, FUN=c)
+        dd <- dt[[col.data]]
+        if(is.matrix(dd)) dt[[col.data]] <- as.list(as.data.frame(t(dd)))
     } else {
         ## short format data
         dxx <- as.data.frame(t(dt[, col.data]))

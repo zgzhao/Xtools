@@ -38,7 +38,6 @@ dt <- read.csv(file.path(path.package("Xtools"), "data", "data.measure.csv"))
 str(dt)
 dx <- sigLabsDT(dt, col.data=4:7, group.by="Plant", stat.vals=TRUE)
 dx
-dx$offset <- max(dx$mean+dx$sd)*0.05
 library("ggplot2")
 px <- ggplot(dx, aes(x=Leaf, y=mean, fill=Treat)) + theme_bw(base_size = 16)
 px + geom_bar(stat="identity", position=position_dodge(.9), width=0.8, color="gray20") +
